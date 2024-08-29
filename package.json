@@ -12,8 +12,10 @@
     "styled-components": "5.2.1"
   },
   "scripts": {
-    "start": "start-storybook -p 6006 -s public"
+    "start": "start-storybook -p 6006 -s public",
+    "start": "NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 6006 -s public"
   },
+
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -42,4 +44,6 @@
     "@storybook/react": "6.5.15",
     "webpack": "4.44.2"
   }
+
+
 }
