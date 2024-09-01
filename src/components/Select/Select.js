@@ -26,7 +26,7 @@ const Select = ({ label, value, onChange, children }) => {
 const Wrapper = styled.div`
   position: relative;
   width: max-content;
-  isolation: ;
+  isolation: isolate
 `;
 
 const NativeSelect = styled.select`
