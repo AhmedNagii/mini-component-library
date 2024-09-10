@@ -6,70 +6,78 @@ import { COLORS } from "../../constants";
 import Icon from "../Icon";
 import VisuallyHidden from "../VisuallyHidden";
 
-const SIZES = {
+const STYLES = {
   small: {
-    "--fontSize": "14px",
-    iconSize: "20px",
+    fontSize: 14,
+    iconSize: 16,
+    borderThickness: 1,
+    height: 24,
   },
   large: {
-    "--fontSize": "18px",
-    iconSize: "24px",
+    fontSize: 18,
+    iconSize: 24,
+    borderThickness: 2,
+    height: 36,
   },
 };
 
-const IconInput = ({ label, icon, width = 250, size, placeholder }) => {
-  const styles = SIZES[size];
+const IconInput = ({ label, icon, width = 250, size, ...delegated }) => {
+  const styles = STYLES[size];
+
+  // TODO: validate size
 
   return (
-    <Wrapper role="input">
+    <Wrapper>
       <VisuallyHidden>{label}</VisuallyHidden>
-      <TextInput width={width} style={styles} placeholder={label} />
-      <MyIconWrapper style={{ "--size": 24 + "px" }}>
+      <IconWrapper style={{ "--size": styles.iconSize + "px" }}>
         <Icon id={icon} size={styles.iconSize} />
-      </MyIconWrapper>
+      </IconWrapper>
+      <TextInput
+        {...delegated}
+        style={{
+          "--width": width + "px",
+          "--height": styles.height / 16 + "rem",
+          "--border-thickness": styles.borderThickness + "px",
+          "--font-size": styles.fontSize / 16 + "rem",
+        }}
+      />
     </Wrapper>
   );
 };
 
-const TextInput = styled.input`
-  font-size: var(--fontSize);
-  color: ${COLORS.gray700};
-  font-family: "Roboto";
-  padding: 0;
-  margin: 0;
-  outline: none;
-  border: none;
-  width: ${(p) => p.width};
-`;
-const Wrapper = styled.div`
+const Wrapper = styled.label`
+  display: block;
   position: relative;
-
-  width: fit-content;
-  border-bottom: 1px solid ${COLORS.gray500};
-  padding: 4px;
-  padding-left: 24px;
   color: ${COLORS.gray700};
+
   &:hover {
     color: ${COLORS.black};
-    border-bottom: 1px solid ${COLORS.black};
-  }
-  &:hover ${TextInput} {
-    color: ${COLORS.black};
-  }
-  &:focus {
-    outline: 1px dotted #212121;
-    outline: 1px solid -webkit-focus-ring-color;
   }
 `;
 
-const MyIconWrapper = styled.div`
+const IconWrapper = styled.div`
   position: absolute;
-  top: 2px;
-  left: 0;
-  margin: auto;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
   height: var(--size);
-  width: var(--size);
-  pointer-events: none;
+`;
+
+const TextInput = styled.input`
+  width: var(--width);
+  height: var(--height);
+  font-size: var(--font-size);
+  border: none;
+  border-bottom: var(--border-thickness) solid ${COLORS.black};
+  padding-left: var(--height);
+  color: inherit;
+  font-weight: 700;
+  outline-offset: 2px;
+
+  &::placeholder {
+    font-weight: 400;
+    color: ${COLORS.gray500};
+  }
 `;
 
 export default IconInput;
